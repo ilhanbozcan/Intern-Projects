@@ -1,5 +1,6 @@
 from kivy.uix.screenmanager import ScreenManager
 
+
 class SM(ScreenManager):
 
     def __init__(self, **kwargs):
