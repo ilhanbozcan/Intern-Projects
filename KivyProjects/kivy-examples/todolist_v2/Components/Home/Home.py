@@ -22,10 +22,12 @@ import sqlite3
 con = sqlite3.connect("DB.db")
 cursor = con.cursor()
 default = False
+
 def database_execute():
     cursor.execute("CREATE TABLE IF NOT EXISTS Tablo1 (task TEXT,time TEXT,id TEXT,control BOOLEAN)")
 
 database = con.execute("SELECT * from Tablo1")
+
 
 class MyPopup(Popup):
     popup_id = StringProperty("")
@@ -41,21 +43,22 @@ class MyPopup(Popup):
     def Do_popup_task(self,instance):
         pass
 
+
 class Home(Screen):
 
-
     def __init__(self,**kwargs):
-        super(Home,self).__init__(**kwargs)
+        super(Home, self).__init__(**kwargs)
         EachTask.Remove_widget = self.remove_widget
         MyPopup.Remove_widget = self.remove_widget_pop
         EachTask.Do_Popup_Task = self.do_popup_task
+        Clock.schedule_once(self.startFirst)
+        Clock.schedule_interval(self.ClockFunction,3)
 
 
 
+    def startFirst(self, *args):
 
         for row in database:
-
-
             if (row[3]) == True:
                 newListItem = EachTask(rgba=[0, .7, .3, 1],
                                        text= row[0] + "    time:    " + row[1],
@@ -64,13 +67,10 @@ class Home(Screen):
 
             else:
 
-                    newListItem = EachTask(text=row[0] + "    time:    " + row[1],
-                                           id=row[2])
+                newListItem = EachTask(text=row[0] + "    time:    " + row[1],
+                                       id=row[2])
 
-                    self.ids.add_field.add_widget(newListItem)
-
-
-        Clock.schedule_interval(self.ClockFunction,3)
+                self.ids.add_field.add_widget(newListItem)
 
     def ClockFunction(self, *args):
         an = datetime.datetime.now()
@@ -155,14 +155,16 @@ class Home(Screen):
 class EachTask(BoxLayout):
 
     rgba = ListProperty([1, .5, .5, 1])
-    def __init__(self, text= "", **kwargs):
+
+    '''
+        def __init__(self, text= "", **kwargs):
         super(EachTask,self).__init__(**kwargs)
         input = self.ids.input.text
         newListItem = EachTask(text=input, id=str((len(self.ids.add_field.children))))
         self.ids.add_field.add_widget(newListItem)
         MyPopup.Do_popup_task =self.Do_Popup_Task
 
-
+    '''
 
     def __init__(self, text="", **kwargs):
         super(EachTask, self).__init__(**kwargs)
