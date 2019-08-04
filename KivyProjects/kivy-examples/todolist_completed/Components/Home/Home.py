@@ -25,9 +25,9 @@ cursor = con.cursor()
 default = False
 
 cursor.execute("CREATE TABLE IF NOT EXISTS Tasks (task TEXT,time TEXT,control BOOLEAN,account_id TEXT,id INTEGER PRIMARY KEY)")
-Account_db = con.execute("SELECT username,password FROM Accounts")
 
-Account = Account_db.fetchall()
+
+
 
 database = con.execute("SELECT * from Tasks")
 
@@ -100,14 +100,14 @@ class Home(Screen):
         database_time = con.execute("SELECT * from Tasks")
 
         for row in database_time:
-            if row[1] == instant and row[3] == 0:
+            if row[1] == instant and row[2] == 0:
                     """
                     the_popup = Popup(title="Time out", content= content, size_hint=(None, None),
                                       size=(500, 250)  )
                     the_popup.open()
                     """
                     self.the_popup = MyPopup()
-                    self.the_popup.popup_id = row[2]
+                    self.the_popup.popup_id = str(row[4])
 
                     self.the_popup.open()
                     break
@@ -154,13 +154,13 @@ class Home(Screen):
             if child.id == self.the_popup.popup_id:
                 if (child.rgba == [1, .5, .5, 1]):
                     child.rgba = [0, .7, .3, 1]
-                    cursor.execute("UPDATE Tasks SET control = 1 WHERE id IN (SELECT id from Tablo1  WHERE id = '" + child.id + "')")
+                    cursor.execute("UPDATE Tasks SET control = 1 WHERE id IN (SELECT id from Tasks  WHERE id = '" + child.id + "')")
                     con.commit()
 
                 else:
                     child.rgba = [1, .5, .5, 1]
                     cursor.execute(
-                        "UPDATE Tasks SET control = 0 WHERE id IN(SELECT id from Tablo1  WHERE id = '" +child.id + "')")
+                        "UPDATE Tasks SET control = 0 WHERE id IN(SELECT id from Tasks  WHERE id = '" +child.id + "')")
                     con.commit()
 
 

@@ -1,8 +1,11 @@
 from kivy.uix.screenmanager import Screen
 import sqlite3
 from kivy.clock import Clock
+import os
 
-con = sqlite3.connect("C:\\Users\\ilhan\\OneDrive\\Masaüstü\\todolist_deneme\\DB.db")
+db_path = os.path.abspath("DB.db")
+
+con = sqlite3.connect(db_path)
 cursor = con.cursor()
 con.commit()
 
