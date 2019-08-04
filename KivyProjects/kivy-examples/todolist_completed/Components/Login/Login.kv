@@ -1,0 +1,99 @@
+<Login>
+    id:main
+    space_x: self.size[0]/4
+    BoxLayout:
+        id: login
+        orientation: "vertical"
+        spacing: 5
+        canvas.before:
+            Color:
+                rgba: (1,1,1,1)
+            Rectangle:
+                size: self.size
+                pos: self.pos
+
+        ##########HEADER#######
+        BoxLayout:
+            id: header
+            size_hint_y: None
+            height: 50
+            canvas.before:
+                Color:
+                    rgba: (.85,.7,.2,1)
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+            Label:
+                text: "LOGIN"
+                font_size: "20sp"
+                bold: True
+
+
+        ######################
+        BoxLayout:
+            orientation: "vertical"
+            padding: main.space_x
+            canvas.before:
+                Color:
+                    rgba: (1,1,.2,.2)
+                Rectangle:
+                    size:self.size
+                    pos: self.pos
+            BoxLayout:
+                id:login_field
+                orientation: "vertical"
+                spacing: 5
+                size_hint_y: None
+                height: 100
+                Label:
+                    id: info
+                    text: ""
+                    markup: True
+                    size_hint_y: None
+                    height: 20
+                TextInput:
+                    id: uname
+                    hint_text: "Username"
+                    multiline: False
+                    focus: True
+                    on_text_validate: pwd.focus = True  #press Enter to pwd line
+
+                TextInput:
+                    hint_text: "Password"
+                    id: pwd
+                    multiline: False
+                    password: True #seems like pwd
+                    on_text_validate:
+                        root.manager.transition.direction = 'left'
+                        root.sign_in()
+            BoxLayout:
+                orientation: "vertical"
+                spacing: 5
+                size_hint_y: None
+                Label:
+                    height:40
+                    size_hint_y:None
+
+                Button:
+                    text: "Sign In"
+                    size_hint_y: None
+                    height: 40
+                    background_color: (.85,.7,.2,1)
+                    background_normal: ""
+                    on_release:
+                        root.manager.transition.direction = 'left'
+                        root.sign_in()
+
+                Button:
+                    text: "Sign Up"
+                    size_hint_y:None
+                    height: 40
+                    spacing: 5
+                    background_color: (.85,.7,.2,1)
+                    background_normal: ""
+                    on_release:
+                        root.manager.current = "SignUp"
+                        root.manager.transition.direction = "left"
+
+
+
